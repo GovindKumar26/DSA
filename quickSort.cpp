@@ -2,6 +2,9 @@ class Solution {
 public:
 
      // Lomuto Partition: pivot is the last element
+     // arr[l..r] is partitioned into two halves
+     // 0 to i is the window of ele smaller than pivot
+     // j to r is the window of ele greater than pivot
     int lomutoPartition(vector<int>& arr, int l, int r) {
         int pivot = arr[r];
         int i = l - 1;
