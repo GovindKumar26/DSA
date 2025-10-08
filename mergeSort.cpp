@@ -39,3 +39,11 @@ class Solution {
         merge(arr, l, mid, r);
     }
 };
+
+// time complexity: O(n log n) all
+// space complexity: O(n)
+// stable: yes
+// adaptive: no
+// in-place: no
+// divide and conquer: yes
+// recursive: yes
