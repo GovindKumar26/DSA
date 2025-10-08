@@ -16,3 +16,9 @@ class Solution {
         }
     }
 };
+
+// time complexity: O(n^2) all
+// space complexity: O(1)
+// stable: no
+// in-place: yes
+// adaptive: no
