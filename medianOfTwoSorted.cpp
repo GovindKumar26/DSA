@@ -14,7 +14,7 @@ class Solution {
         while (j < nums2.size())
             v[k++] = nums2[j++];
 
-        return v;
+        return v; 
     }
 
 public:

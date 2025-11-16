@@ -43,4 +43,4 @@ class Solution {
 
 // Given an array of integers arr and an integer k, find the length of the longest subarray whose sum equals k. If there is no such subarray, return 0.
 // time complexity: O(n)
-// space complexity: O(n)
+// space complexity: O(n) for the map used to store prefix sums and their earliest indices.
