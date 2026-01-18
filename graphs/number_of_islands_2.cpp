@@ -8,16 +8,14 @@ public:
     vector<int> parent, rank;
     
     DisjointSet(int n) {
-        parent.resize(n, -1);  // -1 means not yet land
+        parent.resize(n);
         rank.resize(n, 0);
-    }
-    
-    void makeSet(int node) {
-        parent[node] = node;
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
     }
     
     int findUPar(int node) {
-        if (parent[node] == -1) return -1;
         if (node == parent[node]) return node;
         return parent[node] = findUPar(parent[node]);
     }
@@ -26,7 +24,6 @@ public:
         int ulp_u = findUPar(u);
         int ulp_v = findUPar(v);
         
-        if (ulp_u == -1 || ulp_v == -1) return false;
         if (ulp_u == ulp_v) return false;
         
         if (rank[ulp_u] < rank[ulp_v]) {
@@ -39,16 +36,13 @@ public:
         }
         return true;  // Union happened
     }
-    
-    bool isLand(int node) {
-        return parent[node] != -1;
-    }
 };
 
 class Solution {
 public:
     vector<int> numIslands2(int m, int n, vector<vector<int>>& positions) {
         DisjointSet ds(m * n);
+        vector<bool> vis(m * n, false);
         vector<int> result;
         int count = 0;
         
@@ -60,13 +54,13 @@ public:
             int node = row * n + col;
             
             // If already land, just add current count
-            if (ds.isLand(node)) {
+            if (vis[node]) {
                 result.push_back(count);
                 continue;
             }
             
             // Make this cell land
-            ds.makeSet(node);
+            vis[node] = true;
             count++;
             
             // Try to union with 4 neighbors
@@ -76,7 +70,7 @@ public:
                 
                 if (nr >= 0 && nr < m && nc >= 0 && nc < n) {
                     int neighborNode = nr * n + nc;
-                    if (ds.isLand(neighborNode)) {
+                    if (vis[neighborNode]) {
                         if (ds.unionByRank(node, neighborNode)) {
                             count--;  // Merged two islands into one
                         }
