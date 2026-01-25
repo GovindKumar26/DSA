@@ -16,22 +16,26 @@ public:
         }
 
 
-        // dutch national flag algorithm
-        // int low = 0, mid = 0, high = n-1;
-        // while(mid<=high){
-        //     if(nums[mid]==0){
+        // Dutch National Flag Algorithm - O(n) time, O(1) space, single pass
+        // int n = nums.size();
+        // int low = 0, mid = 0, high = n - 1;
+        // 
+        // // Invariant: [0..low-1] = 0s, [low..mid-1] = 1s, [high+1..n-1] = 2s
+        // while (mid <= high) {
+        //     if (nums[mid] == 0) {
         //         swap(nums[mid], nums[low]);
-        //         mid++;
         //         low++;
+        //         mid++;
         //     }
-        //     if(nums[mid]==1){
-        //          mid++;
+        //     else if (nums[mid] == 1) {
+        //         mid++;
         //     }
-        //     if(nums[mid]==2){
-        //          swap(nums[mid],nums[high]);
-        //          high--;
+        //     else { // nums[mid] == 2
+        //         swap(nums[mid], nums[high]);
+        //         high--;
+        //         // Don't increment mid! Need to check swapped element
         //     }
-        //} 
+        // }
         
     }
 };

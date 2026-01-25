@@ -13,7 +13,7 @@ public:
             if (arr[j] < pivot) {
                 i++;
                 swap(arr[i], arr[j]);
-            }
+            }s
         }
 
         swap(arr[i + 1], arr[r]);
