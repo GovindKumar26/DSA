@@ -49,7 +49,7 @@ public:
     }
     
     // Approach 3: Swap and Sort Method
-    // Time: O((m+n) log(m+n)), Space: O(1)
+    // Time: O(m log m + n log n), Space: O(1)
     void mergeSwapAndSort(vector<int>& nums1, int m, vector<int>& nums2, int n) {
         // First copy nums2 to end of nums1
         for (int i = 0; i < n; i++) {
@@ -308,11 +308,16 @@ Algorithm:
 3. While arr1[left] > arr2[right], swap them and move pointers
 4. Sort both parts separately
 
-Time: O((m+n) log(m+n)) - due to sorting both parts
+Time: O(m log m + n log n) - sorting two arrays separately
 Space: O(1) - in-place
 
-Pros: Efficient swapping reduces work needed for sorting
-Cons: Still requires sorting after swapping
+Key insight: We sort two separate parts of size m and n.
+- O(m log m) for first part
+- O(n log n) for second part
+- Total: O(m log m + n log n) which is better than O((m+n) log(m+n))
+
+Pros: Efficient swapping reduces work, better than sorting entire array
+Cons: Still not as optimal as linear time approach
 
 Step-by-step for [1,2,3] and [2,5,6]:
 After copying: [1,2,3,2,5,6]
@@ -378,7 +383,8 @@ COMPARISON SUMMARY
 Approach          Time              Space    In-place?  Optimal?
 Brute Force       O(n log n)       O(1)      Yes        No
 Extra Space       O(n)             O(n)      No         No
-Swap & Sort       O(n log n)       O(1)      Yes        No
+Swap & Sort       O(m log m +      O(1)      Yes        No
+                   n log n)
 Gap Method        O(n log n)       O(1)      Yes        No
 Two Ptr from End  O(n)             O(1)      Yes        YES ✓
 
