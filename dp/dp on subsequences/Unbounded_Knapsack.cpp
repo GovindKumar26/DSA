@@ -4,7 +4,29 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Tabulation with Space Optimization
+// Approach 1: Memoization
+// TC: O(n*W), SC: O(n*W) + O(n) stack
+int solveMemo(int idx, int W, vector<int>& val, vector<int>& wt, vector<vector<int>>& dp) {
+    if (idx == 0) {
+        return (W / wt[0]) * val[0];
+    }
+    if (dp[idx][W] != -1) return dp[idx][W];
+    
+    int notTake = solveMemo(idx-1, W, val, wt, dp);
+    int take = 0;
+    if (wt[idx] <= W) {
+        take = val[idx] + solveMemo(idx, W - wt[idx], val, wt, dp);
+    }
+    
+    return dp[idx][W] = max(take, notTake);
+}
+
+int unboundedKnapsackMemo(int n, int W, vector<int>& val, vector<int>& wt) {
+    vector<vector<int>> dp(n, vector<int>(W+1, -1));
+    return solveMemo(n-1, W, val, wt, dp);
+}
+
+// Approach 2: Tabulation with Space Optimization
 // TC: O(n*W), SC: O(W)
 int unboundedKnapsack(int n, int W, vector<int>& val, vector<int>& wt) {
     vector<int> prev(W+1, 0);

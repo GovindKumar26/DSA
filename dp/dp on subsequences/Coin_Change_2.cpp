@@ -4,7 +4,30 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Tabulation with Space Optimization
+// Approach 1: Memoization
+// TC: O(n*amount), SC: O(n*amount) + O(n) stack
+int solveMemo(int idx, int amount, vector<int>& coins, vector<vector<int>>& dp) {
+    if (idx == 0) {
+        return (amount % coins[0] == 0) ? 1 : 0;
+    }
+    if (dp[idx][amount] != -1) return dp[idx][amount];
+    
+    int notTake = solveMemo(idx-1, amount, coins, dp);
+    int take = 0;
+    if (coins[idx] <= amount) {
+        take = solveMemo(idx, amount - coins[idx], coins, dp);
+    }
+    
+    return dp[idx][amount] = take + notTake;
+}
+
+int changeMemo(int amount, vector<int>& coins) {
+    int n = coins.size();
+    vector<vector<int>> dp(n, vector<int>(amount+1, -1));
+    return solveMemo(n-1, amount, coins, dp);
+}
+
+// Approach 2: Tabulation with Space Optimization
 // TC: O(n*amount), SC: O(amount)
 int change(int amount, vector<int>& coins) {
     int n = coins.size();

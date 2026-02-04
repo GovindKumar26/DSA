@@ -4,7 +4,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Minimum Falling Path Sum
+// Approach 1: Memoization
+// TC: O(n*m), SC: O(n*m) + O(n) stack
+int solveMemo(int i, int j, vector<vector<int>>& matrix, vector<vector<int>>& dp) {
+    int n = matrix.size();
+    int m = matrix[0].size();
+    
+    if (j < 0 || j >= m) return 1e8;
+    if (i == 0) return matrix[0][j];
+    if (dp[i][j] != -1) return dp[i][j];
+    
+    int up = solveMemo(i-1, j, matrix, dp);
+    int leftDiag = solveMemo(i-1, j-1, matrix, dp);
+    int rightDiag = solveMemo(i-1, j+1, matrix, dp);
+    
+    return dp[i][j] = matrix[i][j] + min({up, leftDiag, rightDiag});
+}
+
+int minFallingPathSumMemo(vector<vector<int>>& matrix) {
+    int n = matrix.size();
+    int m = matrix[0].size();
+    vector<vector<int>> dp(n, vector<int>(m, -1));
+    
+    int mini = INT_MAX;
+    for (int j = 0; j < m; j++) {
+        mini = min(mini, solveMemo(n-1, j, matrix, dp));
+    }
+    return mini;
+}
+
+// Approach 2: Minimum Falling Path Sum (Tabulation)
 // TC: O(n*m), SC: O(m)
 int minFallingPathSum(vector<vector<int>>& matrix) {
     int n = matrix.size();

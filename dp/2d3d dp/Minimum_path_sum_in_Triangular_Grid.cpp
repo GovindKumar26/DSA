@@ -4,7 +4,26 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Space Optimized Tabulation
+// Approach 1: Memoization
+// TC: O(n^2), SC: O(n^2) + O(n) stack
+int solve(int i, int j, vector<vector<int>>& triangle, vector<vector<int>>& dp) {
+    int n = triangle.size();
+    if (i == n-1) return triangle[i][j];
+    if (dp[i][j] != -1) return dp[i][j];
+    
+    int down = solve(i+1, j, triangle, dp);
+    int diagonal = solve(i+1, j+1, triangle, dp);
+    
+    return dp[i][j] = triangle[i][j] + min(down, diagonal);
+}
+
+int minimumTotalMemo(vector<vector<int>>& triangle) {
+    int n = triangle.size();
+    vector<vector<int>> dp(n, vector<int>(n, -1));
+    return solve(0, 0, triangle, dp);
+}
+
+// Approach 2: Space Optimized Tabulation
 // TC: O(n^2), SC: O(n)
 int minimumTotal(vector<vector<int>>& triangle) {
     int n = triangle.size();

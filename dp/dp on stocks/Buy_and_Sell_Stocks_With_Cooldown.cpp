@@ -4,7 +4,29 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Space Optimized DP
+// Approach 1: Memoization
+// TC: O(n*2), SC: O(n*2) + O(n) stack
+int solveMemo(int idx, int buy, vector<int>& prices, vector<vector<int>>& dp) {
+    if (idx >= prices.size()) return 0;
+    if (dp[idx][buy] != -1) return dp[idx][buy];
+    
+    if (buy) {
+        return dp[idx][buy] = max(-prices[idx] + solveMemo(idx+1, 0, prices, dp),
+                                    solveMemo(idx+1, 1, prices, dp));
+    } else {
+        // After selling, skip one day (cooldown)
+        return dp[idx][buy] = max(prices[idx] + solveMemo(idx+2, 1, prices, dp),
+                                    solveMemo(idx+1, 0, prices, dp));
+    }
+}
+
+int maxProfitMemo(vector<int>& prices) {
+    int n = prices.size();
+    vector<vector<int>> dp(n, vector<int>(2, -1));
+    return solveMemo(0, 1, prices, dp);
+}
+
+// Approach 2: Space Optimized DP
 // TC: O(n), SC: O(1)
 int maxProfit(vector<int>& prices) {
     int n = prices.size();
